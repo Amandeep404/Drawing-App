@@ -20,8 +20,26 @@ class DrawingView(context : Context, attrs:AttributeSet): View(context, attrs){
     private var myBrushSize :Float = 0.toFloat()
     private var myColor = Color.BLACK
 
+    private val myUndoPath = ArrayList<CustomPath>()
+    private val myRedoPath = ArrayList<CustomPath>()
+
+
     init{
         drawingSetUp()
+    }
+
+    fun onClickUndo(){
+        if (myPath.size>0){
+            myUndoPath.add(myPath.removeAt(myPath.size-1))
+            invalidate()  // internally calls the onDraw function
+        }
+    }
+
+    fun onClickRedo(){
+        if (myUndoPath.size > 0) {
+            myPath.add(myUndoPath.removeAt(myUndoPath.size- 1))
+            invalidate()
+        }
     }
 
     private fun drawingSetUp(){

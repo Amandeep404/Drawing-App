@@ -19,6 +19,7 @@
         >
 
         <ImageView
+            android:id="@+id/iv_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/malik_skydsgaard_y7fes2_0mq8_unsplash"
@@ -142,22 +143,40 @@
 
     >
 
-    <ImageView
+    <ImageButton
         android:id="@+id/galleryButton"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/icons8_gallery_30"
         android:layout_marginRight="10dp"
         android:scaleType="fitXY"
         />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/brush_dialog_button"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/icons8_paint_30"
         android:scaleType="fitXY"
         />
+    <ImageButton
+        android:id="@+id/undoButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/icons8_undo_30__2_"
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitXY"
+        />
+
+    <ImageButton
+        android:id="@+id/redoButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/icons8_redo_30"
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitXY"
+        />
+
 </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
