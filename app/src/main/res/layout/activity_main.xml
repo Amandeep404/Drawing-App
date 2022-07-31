@@ -177,6 +177,15 @@
         android:scaleType="fitXY"
         />
 
+    <ImageButton
+        android:id="@+id/saveButton"
+        android:layout_width="49dp"
+        android:layout_height="45dp"
+        android:src="@drawable/icons8_save_30__2_"
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitXY"
+        />
+
 </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
