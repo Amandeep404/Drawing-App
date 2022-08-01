@@ -15,13 +15,22 @@ class DrawingView(context : Context, attrs:AttributeSet): View(context, attrs){
     private var myCanvasBitmap: Bitmap? = null
     private var myDrawPaint: Paint? = null
     private var myCanvasPaint: Paint? = null
+
+    /**
+     * A variable for canvas which will be initialized later and used.
+     *
+     *The Canvas class holds the "draw" calls. To draw something, you need 4 basic components: A Bitmap to hold the pixels, a Canvas to host
+     * the draw calls (writing into the bitmap), a drawing primitive (e.g. Rect,
+     * Path, text, Bitmap), and a paint (to describe the colors and styles for the
+     * drawing)
+     */
+
     private var myCanvas: Canvas?= null
     private val myPath = ArrayList<CustomPath>()
     private var myBrushSize :Float = 0.toFloat()
     private var myColor = Color.BLACK
 
     private val myUndoPath = ArrayList<CustomPath>()
-    private val myRedoPath = ArrayList<CustomPath>()
 
 
     init{
@@ -45,10 +54,10 @@ class DrawingView(context : Context, attrs:AttributeSet): View(context, attrs){
     private fun drawingSetUp(){
         myDrawPaint = Paint()
         myDrawPath = CustomPath(myColor,myBrushSize)
-        myDrawPaint!!.color= myColor
-        myDrawPaint!!.style = Paint.Style.STROKE
-        myDrawPaint!!.strokeJoin =Paint.Join.ROUND
-        myDrawPaint!!.strokeCap =Paint.Cap.ROUND
+        myDrawPaint?.color= myColor
+        myDrawPaint?.style = Paint.Style.STROKE
+        myDrawPaint?.strokeJoin =Paint.Join.ROUND
+        myDrawPaint?.strokeCap =Paint.Cap.ROUND
         myCanvasPaint= Paint(Paint.DITHER_FLAG)
        // myBrushSize=20.toFloat()
     }
@@ -59,25 +68,28 @@ class DrawingView(context : Context, attrs:AttributeSet): View(context, attrs){
         myCanvasBitmap= Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         myCanvas = Canvas(myCanvasBitmap!!)
     }
+//This method is called when a stroke is drawn on the canvas as a part of the painting.
 
     override fun onDraw(myCanvas: Canvas?) {
         super.onDraw(myCanvas)
-        myCanvas!!.drawBitmap(myCanvasBitmap!!, 0F,0F , myCanvasPaint)
+
+        myCanvasBitmap?.let {
+            myCanvas?.drawBitmap(it, 0f, 0f,myCanvasPaint)
+        }
 
         for(path in myPath){// saves our drawn line in myPath
             myDrawPaint!!.strokeWidth = path.brushThickness
             myDrawPaint!!.color= path.color
-            myCanvas.drawPath(path, myDrawPaint!!)
+            myCanvas?.drawPath(path, myDrawPaint!!)
         }
 
         if (!myDrawPath!!.isEmpty){
-            myDrawPaint!!.strokeWidth = myDrawPath!!.brushThickness
-            myDrawPaint!!.color= myDrawPath!!.color
-            myCanvas.drawPath(myDrawPath!!, myDrawPaint!!)
+            myDrawPaint?.strokeWidth = myDrawPath!!.brushThickness
+            myDrawPaint?.color= myDrawPath!!.color
+            myCanvas?.drawPath(myDrawPath!!, myDrawPaint!!)
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 
         val touchX = event?.x
@@ -88,26 +100,26 @@ class DrawingView(context : Context, attrs:AttributeSet): View(context, attrs){
                 myDrawPath!!.color = myColor
                 myDrawPath!!.brushThickness = myBrushSize
 
-                myDrawPath!!.reset()
+                myDrawPath!!.reset()// Clear any lines and curves from the path, making it empty.
 
                 if (touchX != null) {
                     if (touchY != null) {
-                        myDrawPath!!.moveTo(touchX, touchX)
+                        myDrawPath!!.moveTo(touchX, touchX)// Set the beginning of the next contour to the point (x,y).
                     }
                 }
             }
             MotionEvent.ACTION_MOVE -> {
                 if (touchX != null) {
                     if (touchY != null) {
-                        myDrawPath!!.lineTo(touchX, touchY)
+                        myDrawPath!!.lineTo(touchX, touchY)// Add a line from the last point to the specified point (x,y).
                     }
                 }
             }
             MotionEvent.ACTION_UP->{
-                myPath.add(myDrawPath!!)// stores our drawn line
+                myPath.add(myDrawPath!!) //Add when to stroke is drawn to canvas and added in the path arraylist
                 myDrawPath = CustomPath(myColor, myBrushSize)
             }
-            else->return false
+            else -> return false
 
         }
         invalidate()
